@@ -5,12 +5,30 @@ on:
   push:
 
 jobs:
-  lint:
+#  lint:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: github/super-linter@v3
+#        env:
+#          VALIDATE_ALL_CODEBASE: false
+#          DEFAULT_BRANCH: main
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  sast:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: github/super-linter@v3
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - run : |
+          python -m pytest -s .
